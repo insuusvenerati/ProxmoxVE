@@ -8,7 +8,7 @@ source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxV
 APP="Omada"
 var_tags="${var_tags:-tp-link;controller}"
 var_cpu="${var_cpu:-2}"
-var_ram="${var_ram:-2048}"
+var_ram="${var_ram:-3072}"
 var_disk="${var_disk:-8}"
 var_os="${var_os:-debian}"
 var_version="${var_version:-12}"
@@ -52,20 +52,20 @@ function update_script() {
     msg_ok "Azul Zulu Java 21 already installed"
   fi
 
-msg_info "Updating Omada Controller"
-OMADA_URL=$(curl -fsSL "https://support.omadanetworks.com/en/download/software/omada-controller/" \
-  | grep -o 'https://static\.tp-link\.com/upload/software/[^"]*linux_x64[^"]*\.deb' \
-  | head -n1)
-OMADA_PKG=$(basename "$OMADA_URL")
-if [ -z "$OMADA_PKG" ]; then
-  msg_error "Could not retrieve Omada package – server may be down."
-  exit 1
-fi
-curl -fsSL "$OMADA_URL" -o "$OMADA_PKG"
-export DEBIAN_FRONTEND=noninteractive
-$STD dpkg -i "$OMADA_PKG"
-rm -f "$OMADA_PKG"
-msg_ok "Updated Omada Controller"
+  msg_info "Updating Omada Controller"
+  OMADA_URL=$(curl -fsSL "https://support.omadanetworks.com/en/download/software/omada-controller/" |
+    grep -o 'https://static\.tp-link\.com/upload/software/[^"]*linux_x64[^"]*\.deb' |
+    head -n1)
+  OMADA_PKG=$(basename "$OMADA_URL")
+  if [ -z "$OMADA_PKG" ]; then
+    msg_error "Could not retrieve Omada package – server may be down."
+    exit 1
+  fi
+  curl -fsSL "$OMADA_URL" -o "$OMADA_PKG"
+  export DEBIAN_FRONTEND=noninteractive
+  $STD dpkg -i "$OMADA_PKG"
+  rm -f "$OMADA_PKG"
+  msg_ok "Updated Omada Controller"
 }
 
 start
