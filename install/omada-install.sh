@@ -55,12 +55,14 @@ $STD apt-get install -y mongodb-org
 msg_ok "Installed MongoDB $MONGODB_VERSION"
 
 msg_info "Installing Omada Controller"
-latest_url=$(curl -fsSL "https://support.omadanetworks.com/en/download/software/omada-controller/" | grep -o 'https://static\.tp-link\.com/upload/software/[^"]*linux_x64[^"]*\.deb' | head -n 1)
-latest_version=$(basename "$latest_url")
-
-curl -fsSL "${latest_url}" -O
-$STD dpkg -i ${latest_version}
+OMADA_URL=$(curl -fsSL "https://support.omadanetworks.com/en/download/software/omada-controller/" \
+  | grep -o 'https://static\.tp-link\.com/upload/software/[^"]*linux_x64[^"]*\.deb' \
+  | head -n1)
+OMADA_PKG=$(basename "$OMADA_URL")
+curl -fsSL "$OMADA_URL" -o "$OMADA_PKG"
+$STD dpkg -i "$OMADA_PKG"
 msg_ok "Installed Omada Controller"
+
 
 motd_ssh
 customize
