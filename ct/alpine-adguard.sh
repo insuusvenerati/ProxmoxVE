@@ -20,6 +20,7 @@ color
 catch_errors
 
 function update_script() {
+    header_info
     msg_info "Updating Alpine Packages"
     $STD apk update
     $STD apk upgrade
