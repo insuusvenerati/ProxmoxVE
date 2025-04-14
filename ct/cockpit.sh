@@ -44,7 +44,13 @@ function update_script() {
 
   if [ "$UPD" == "2" ]; then
     msg_info "Installing dependencies (patience)"
-    $STD apt-get install -y attr nfs-kernel-server samba samba-common-bin winbind gawk
+    $STD apt-get install -y \
+      attr \
+      nfs-kernel-server \
+      samba \
+      samba-common-bin \
+      winbind \
+      gawk
     msg_ok "Installed dependencies"
     msg_info "Installing Cockpit file sharing"
     URL=$(curl -fsSL https://api.github.com/repos/45Drives/cockpit-file-sharing/releases/latest | grep download | grep focal_all.deb | cut -d\" -f4)
@@ -58,7 +64,10 @@ function update_script() {
 
   if [ "$UPD" == "3" ]; then
     msg_info "Installing dependencies (patience)"
-    $STD apt-get install -y psmisc samba samba-common-bin
+    $STD apt-get install -y \
+      psmisc \
+      samba \
+      samba-common-bin
     msg_ok "Installed dependencies"
     msg_info "Installing Cockpit identities"
     URL=$(curl -fsSL https://api.github.com/repos/45Drives/cockpit-identities/releases/latest | grep download | grep focal_all.deb | cut -d\" -f4)
@@ -72,7 +81,9 @@ function update_script() {
 
   if [ "$UPD" == "4" ]; then
     msg_info "Installing dependencies"
-    $STD apt-get install -y rsync zip
+    $STD apt-get install -y \
+      rsync \
+      zip
     msg_ok "Installed dependencies"
     msg_info "Installing Cockpit navigator"
     URL=$(curl -fsSL https://api.github.com/repos/45Drives/cockpit-navigator/releases/latest | grep download | grep focal_all.deb | cut -d\" -f4)
