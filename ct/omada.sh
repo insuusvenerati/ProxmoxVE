@@ -52,19 +52,20 @@ function update_script() {
     msg_ok "Azul Zulu Java 21 already installed"
   fi
 
-  msg_info "Updating Omada Controller"
-  latest_url=$(curl -fsSL "https://support.omadanetworks.com/en/download/software/omada-controller/" | grep -o 'https://static\.tp-link\.com/upload/software/[^"]*linux_x64[^"]*\.deb' | head -n 1)
-  latest_version=$(basename "$latest_url")
-  if [ -z "${latest_version}" ]; then
-    msg_error "It seems that the server (tp-link.com) might be down. Please try again at a later time."
-    exit
-  fi
-
-  curl -fsSL "${latest_url}" -O
-  export DEBIAN_FRONTEND=noninteractive
-  $STD dpkg -i ${latest_version}
-  rm -rf ${latest_version}
-  msg_ok "Updated Omada Controller"
+msg_info "Updating Omada Controller"
+OMADA_URL=$(curl -fsSL "https://support.omadanetworks.com/en/download/software/omada-controller/" \
+  | grep -o 'https://static\.tp-link\.com/upload/software/[^"]*linux_x64[^"]*\.deb' \
+  | head -n1)
+OMADA_PKG=$(basename "$OMADA_URL")
+if [ -z "$OMADA_PKG" ]; then
+  msg_error "Could not retrieve Omada package – server may be down."
+  exit 1
+fi
+curl -fsSL "$OMADA_URL" -o "$OMADA_PKG"
+export DEBIAN_FRONTEND=noninteractive
+$STD dpkg -i "$OMADA_PKG"
+rm -f "$OMADA_PKG"
+msg_ok "Updated Omada Controller"
 }
 
 start
