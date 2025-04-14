@@ -6,7 +6,7 @@ source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxV
 # Source: https://adguardhome.com/
 
 APP="Alpine-AdGuard"
-var_tags="${var_tags:-alpine;networking}"
+var_tags="${var_tags:-alpine;adblock}"
 var_cpu="${var_cpu:-1}"
 var_ram="${var_ram:-256}"
 var_disk="${var_disk:-1}"
