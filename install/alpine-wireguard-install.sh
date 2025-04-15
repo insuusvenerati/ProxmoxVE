@@ -79,7 +79,7 @@ depend() {
 
 start() {
     ebegin "Starting WGDashboard"
-    cd /etc/wgdashboard/src/  1
+    cd /etc/wgdashboard/src/
     ./wgd.sh start &
     eend $?
 }
